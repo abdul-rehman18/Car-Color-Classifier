@@ -20,7 +20,7 @@ test_dataset_dir = 'test/'
 
 
 # Define the color labels
-color_labels = ['black', 'blue', 'brown', 'green', 'grey', 'red', 'white', 'yellow']
+color_labels = ['black', 'blue', 'brown', 'gray','green', 'red', 'white', 'yellow']
 
 # Set the upload folder and allowed extensions
 app.config['UPLOAD_FOLDER'] = 'static/images'
@@ -56,10 +56,12 @@ def index():
         predicted_color_index = np.argmax(prediction)
         predicted_color_prob = prediction[0][predicted_color_index]
 
-        if predicted_color_prob >= threshold:
-            predicted_color_label = color_labels[predicted_color_index]
-        else:
-            predicted_color_label = 'unknown'
+        # if predicted_color_prob >= threshold:
+        #     predicted_color_label = color_labels[predicted_color_index]
+        # else:
+        #     predicted_color_label = 'unknown'
+
+        predicted_color_label = color_labels[predicted_color_index]
 
         test_datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
         test_generator = test_datagen.flow_from_directory(test_dataset_dir,target_size=image_size,batch_size=1,class_mode='categorical',shuffle=False)
@@ -81,8 +83,8 @@ def index():
         # Plot the confusion matrix using Seaborn
         plt.figure(figsize=(8, 6))
         sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', xticklabels=color_labels, yticklabels=color_labels)
-        plt.xlabel('Predicted Labels')
-        plt.ylabel('True Labels')
+        plt.xlabel("predicted labels")
+        plt.ylabel("true label")
         plt.title('Confusion Matrix')
 
         # Save the confusion matrix plot as an image
